@@ -9,8 +9,6 @@ from .default_settings import (
     square_width,
     square_height,
     speed,
-    square_x,
-    square_y,
 )
 from .players import Level, SquarePlayer, Ghost
 
@@ -18,6 +16,7 @@ from .players import Level, SquarePlayer, Ghost
 def default_run():
     screen = pygame.display.set_mode((screen_width, screen_height))
     running = True
+    square_x, square_y = 0, 0
 
     level1 = Level(screen, level1grid, "level1")
     level2 = Level(screen, level2grid, "level2")
