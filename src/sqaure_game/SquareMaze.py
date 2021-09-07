@@ -39,15 +39,13 @@ def default_run():
 
     while running:
         # resetting to beginning
-        if level_int >= max_int:
+        if level_int > max_int:
             level_int = min_int
             current_level = level_dict[level_int]
-            next_level = level_dict[2]
             square_x = 0
             square_y = 0
-        else:
-            current_level = level_dict[level_int]
-            next_level = level_dict[level_int + 1]
+        
+        current_level = level_dict[level_int]
 
         screen.fill((255, 255, 255))
         current_level.blit_level()
@@ -79,7 +77,7 @@ def default_run():
             player_coords = []
             level_goal_list = []
             level_int += 1
-            square_x, square_y = next_level.square_x, next_level.square_y
+            #square_x, square_y = next_level.square_x, next_level.square_y
 
         # player movement
         keys = pygame.key.get_pressed()
@@ -96,7 +94,7 @@ def default_run():
             square_x += speed
             square_direction = "right"
 
-        # wall boundreys
+        # wall boundrys
         if square_x > screen_width - 64:
             square_x = screen_width - 64
         if square_x < 0:
@@ -124,26 +122,26 @@ def default_run():
                 collision_off = True
 
         # checking if the player is in the safe area
-        for space_object in current_level.safe_area:
-            if (
-                square.object.colliderect(space_object) == True
-            ):  # and current_level.completed_goals != level_goal_list:
-                collision_off = True
-            else:
-                collision_off = False
+        # for space_object in current_level.safe_area:
+        #     if (
+        #         square.object.colliderect(space_object) == True
+        #     ):  # and current_level.completed_goals != level_goal_list:
+        #         collision_off = True
+        #     else:
+        #         collision_off = False
 
         # ghost collision
-        if (
-            collision_off == False
-            and square.object.colliderect(current_level.player_spawn) == False
-        ):
-            if square.object.colliderect(ghost.object) == True:
-                level_int = min_int
-                square_x, square_y = 0, 0
-                player_coords = []
-                current_level.level_reset()
-                # current_level = level_dict[level_int]
-                print(current_level.name)
+        # if (
+        #     collision_off == False
+        #     and square.object.colliderect(current_level.player_spawn) == False
+        # ):
+        #     if square.object.colliderect(ghost.object) == True:
+        #         level_int = min_int
+        #         square_x, square_y = 0, 0
+        #         player_coords = []
+        #         current_level.level_reset()
+        #         # current_level = level_dict[level_int]
+        #         print(current_level.name)
 
         square = SquarePlayer(
             screen, black, square_width, square_height, square_x, square_y
