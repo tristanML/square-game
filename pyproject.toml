@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "sqaure_game"
+version = "0.0.1"
+description = "a square game based on pygame"
+authors = ["Tristan Laanait <tristanlaanait@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+pygame = "2.0.0.dev6"
+
+[tool.poetry.scripts]
+sqaure-game-play = "sqaure_game.SquareMaze:default_run"
+
+[tool.coverage.run]
+branch = true
+source = ["sqaure_game"]
+
+[tool.coverage.paths]
+source = ["src"]
+
+[build-system]
+requires = ["poetry_core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
