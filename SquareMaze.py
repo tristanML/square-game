@@ -288,7 +288,7 @@ while running:
             #current_level = level_dict[level_int]
             print(current_level.name)
         
-    square = SquarePlayer(screen, black, square_width, square_height, square_x, square_y)
+    #square = SquarePlayer(screen, black, square_width, square_height, square_x, square_y)
         
     #game quit
     for event in pygame.event.get(): 
