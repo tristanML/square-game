@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "sqaure_game"
+name = "square_game"
 version = "0.0.1"
 description = "a square game based on pygame"
 authors = ["Tristan Laanait <tristanlaanait@gmail.com>"]
@@ -9,11 +9,11 @@ readme = "README.md"
 pygame = "2.0.0.dev6"
 
 [tool.poetry.scripts]
-sqaure-game-play = "sqaure_game.SquareMaze:default_run"
+square-game-play = "square_game.SquareMaze:default_run"
 
 [tool.coverage.run]
 branch = true
-source = ["sqaure_game"]
+source = ["square_game"]
 
 [tool.coverage.paths]
 source = ["src"]

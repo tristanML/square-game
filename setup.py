@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="sqaure-game",
+    name="square-game",
     version="0.0.1",
     author="Tristan Laanait",
     author_email="tristanlaanait@gmail.com",
