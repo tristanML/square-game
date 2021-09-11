@@ -13,11 +13,13 @@ from .default_settings import (
     square_width,
     square_height,
     speed,
+    fps
 )
 from .players import Goal, Level, SquarePlayer, Ghost
 
 
 def default_run():
+    fpsClock = pygame.time.Clock()
     screen = pygame.display.set_mode((screen_width, screen_height))
     running = True
 
@@ -64,7 +66,6 @@ def default_run():
         current_level.blit_level()
         ghost.draw()
         square.draw()
-        pygame.display.flip()
 
         player_coords.append((square.x, square.y))
         if len(player_coords) > 250:
@@ -149,14 +150,11 @@ def default_run():
                 square.x, square.y= 0,0
                 player_coords = [(0,0)]
 
-                
+        square = SquarePlayer(
+            screen, black, square_width, square_height, square.x, square.y
+        )
 
-        # previous_x = square.x
-        # previous_y = square.y
-        #player_coords.append((square.x, square.y))
-
-        # if len(player_coords) > 250:
-        #     ghost.x, ghost.y = player_coords[-250] 
+        pygame.display.flip()
 
         # game quit
         for event in pygame.event.get():

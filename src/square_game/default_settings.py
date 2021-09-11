@@ -13,6 +13,7 @@ __all__ = [
     "screen_height",
     "square_width",
     "square_height",
+    "fps"
 ]
 
 black = (0, 0, 0)
@@ -25,3 +26,5 @@ goal_x, goal_y = 0, 0
 
 screen_width, screen_height = (512, 512)
 square_width, square_height = (64, 64)
+
+fps = 1000
