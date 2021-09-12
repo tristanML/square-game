@@ -4,7 +4,7 @@ from pygame.locals import *
 from pygame.sprite import collide_rect
 import time
 
-from .levels import level1grid, level2grid, level3grid, level4grid, level5grid
+from .levels import *
 
 from .default_settings import (
     screen_height,
@@ -12,14 +12,12 @@ from .default_settings import (
     black,
     square_width,
     square_height,
-    speed,
-    fps
+    speed
 )
 from .players import Goal, Level, SquarePlayer, Ghost
 
 
 def default_run():
-    fpsClock = pygame.time.Clock()
     screen = pygame.display.set_mode((screen_width, screen_height))
     running = True
 
@@ -28,16 +26,23 @@ def default_run():
     level3 = Level(screen, level3grid, "level3")
     level4 = Level(screen, level4grid, "level4")
     level5 = Level(screen, level5grid, "level5")
+    level6 = Level(screen, level6grid, "level6")
+    level7 = Level(screen, level7grid, "level7")
+    level8 = Level(screen, level8grid, "level8")
+    level9 = Level(screen, level9grid, "level9")
+    level10 = Level(screen, level10grid, "level10")
 
     square = SquarePlayer(screen, black, square_width, square_height, 0, 0)
     player_coords = []
     ghost = Ghost(screen, 0, 0)
 
-    level_dict = {1: level1, 2: level2, 3: level3, 4: level4, 5: level5}
+    level_dict = {1: level1, 2: level2, 3: level3, 4: level4, 5: level5, 6: level6, 7: level7, 8: level8, 9: level9, 10: level10}
 
     level_int = 1
     min_int = 1
     max_int = len(level_dict)
+
+    editor_mode_on = False
 
     while running:
         #resetting to beginning
@@ -66,37 +71,24 @@ def default_run():
         current_level.blit_level()
         ghost.draw()
         square.draw()
+        pygame.display.flip()
 
         player_coords.append((square.x, square.y))
         if len(player_coords) > 250:
             ghost.x, ghost.y = player_coords[-250]
-            #player_coords = []
-            
-            # print("current level", current_level.name)
-            # if level_int > max_int:
-            #     level_int = min_int
-            #     current_level = level_dict[level_int]
-            #     square.x = 0
-            #     square.y = 0
-            # else:
-            #     level_int = level_int
-            #     current_level = level_dict[level_int]
-            # print("new level", current_level.name)
-            # square.x, square.y = current_level.square.x, current_level.square.y
 
         # player movement
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_w] or keys[pygame.K_UP]:
+        if keys[K_w] or keys[K_UP]:
             square.y -= speed
-        if keys[pygame.K_s] or keys[pygame.K_DOWN]:
+        if keys[K_s] or keys[K_DOWN]:
             square.y += speed
-        if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+        if keys[K_a] or keys[K_LEFT]:
             square.x -= speed
-        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+        if keys[K_d] or keys[K_RIGHT]:
             square.x += speed
-        if keys[pygame.K_l]:
-            print(current_level.name)
-
+        if keys[K_e] and keys[K_LSHIFT] and keys[K_1]:
+            editor_mode_on = True
 
         # wall boundrys
         if square.x > screen_width - 64:
@@ -111,13 +103,9 @@ def default_run():
         square = SquarePlayer(
             screen, black, square_width, square_height, square.x, square.y
         )
-        # ghost = Ghost(
-        #     screen, ghost.x, ghost.y
-        # )
-
-        # square.draw()
-        # ghost.draw()
-        # pygame.display.flip()
+        ghost = Ghost(
+            screen, ghost.x, ghost.y
+        )
 
         # checking for walls
         for wall in current_level.wall_points:
@@ -129,22 +117,15 @@ def default_run():
         if square.object.colliderect(current_level.goal.object) == True:
             ghost.x, ghost.y = current_level.goal.x, current_level.goal.y
             square.x, square.y = current_level.goal.x, current_level.goal.y
-            player_coords = []
+            player_coords = [(current_level.goal.x, current_level.goal.y)]
             current_level.level_reset()
             level_int += 1
-            # collision_off = True
 
         #ghost collision
         if square.object.colliderect(ghost.object) == True:
-            if square.object.colliderect(current_level.player_spawn) == False:
+            if square.object.colliderect(current_level.player_spawn) == False and editor_mode_on == False:
                 level_int = min_int
                 collision_event = ghost.x, ghost.y
-                # if collision_event == (current_level.goal.x, current_level.goal.y):
-                #     level_int += 1
-                #     print("avoided fake collsion")
-                # else:
-                # print(current_level.goal.x, current_level.goal.y)
-                # print("collision at", collision_event, current_level.goal.goal_completed)
                 current_level.level_reset()
                 ghost.x, ghost.y = 0,0
                 square.x, square.y= 0,0
@@ -153,8 +134,6 @@ def default_run():
         square = SquarePlayer(
             screen, black, square_width, square_height, square.x, square.y
         )
-
-        pygame.display.flip()
 
         # game quit
         for event in pygame.event.get():
