@@ -3,7 +3,7 @@
 ## Install:
 run on your favorite shell:
 ```
-$ pip install git+https://github.com/tristanML/sqaure-game.git
+pip install git+https://github.com/tristanML/square-game.git
 ```
 Issues with `pygame`:
 + on MacOS
@@ -12,5 +12,5 @@ brew install sdl sdl_image sdl_mixer sdl_ttf portmidi
 ```
 ## Play:
 ```
-$ sqaure-game-play
+square-game-play
 ```
