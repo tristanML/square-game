@@ -5,6 +5,7 @@ from pygame.sprite import collide_rect
 import time
 
 from .levels import *
+from .levels11_20 import *
 
 from .default_settings import (
     screen_height,
@@ -15,7 +16,6 @@ from .default_settings import (
     speed
 )
 from .players import Goal, Level, SquarePlayer, Ghost
-
 
 def default_run():
     screen = pygame.display.set_mode((screen_width, screen_height))
@@ -31,18 +31,34 @@ def default_run():
     level8 = Level(screen, level8grid, "level8")
     level9 = Level(screen, level9grid, "level9")
     level10 = Level(screen, level10grid, "level10")
+    level11 = Level(screen, level11grid, "level11")
+    level12 = Level(screen, level12grid, "level12")
+    level13 = Level(screen, level13grid, "level13")
 
     square = SquarePlayer(screen, black, square_width, square_height, 0, 0)
     player_coords = []
     ghost = Ghost(screen, 0, 0)
 
-    level_dict = {1: level1, 2: level2, 3: level3, 4: level4, 5: level5, 6: level6, 7: level7, 8: level8, 9: level9, 10: level10}
+    level_dict = {1: level1, 
+                2: level2, 
+                3: level3, 
+                4: level4, 
+                5: level5, 
+                6: level6, 
+                7: level7, 
+                8: level8, 
+                9: level9, 
+                10: level10,
+                11: level11,
+                12: level12,
+                13: level13}
 
     level_int = 1
     min_int = 1
     max_int = len(level_dict)
 
     editor_mode_on = False
+    setback = 250
 
     while running:
         #resetting to beginning
@@ -74,8 +90,8 @@ def default_run():
         pygame.display.flip()
 
         player_coords.append((square.x, square.y))
-        if len(player_coords) > 250:
-            ghost.x, ghost.y = player_coords[-250]
+        if len(player_coords) > setback:
+            ghost.x, ghost.y = player_coords[-setback]
 
         # player movement
         keys = pygame.key.get_pressed()
@@ -89,6 +105,7 @@ def default_run():
             square.x += speed
         if keys[K_e] and keys[K_LSHIFT] and keys[K_1]:
             editor_mode_on = True
+            setback = 325
 
         # wall boundrys
         if square.x > screen_width - 64:
