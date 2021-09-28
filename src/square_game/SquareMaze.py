@@ -23,15 +23,15 @@ def default_run():
     running = True
     intro_on = True
     
-    intro_frame1 = pygame.image.load("src/square_game/IntroFrames/frame1.png")
-    intro_frame2 = pygame.image.load("src/square_game/IntroFrames/frame2.png")
-    intro_frame3 = pygame.image.load("src/square_game/IntroFrames/frame3.png")
-    intro_frame4 = pygame.image.load("src/square_game/IntroFrames/frame4.png")
+    intro_frame1 = pygame.image.load("src/square_game/Resources/IntroFrames/frame1.png")
+    intro_frame2 = pygame.image.load("src/square_game/Resources/IntroFrames/frame2.png")
+    intro_frame3 = pygame.image.load("src/square_game/Resources/IntroFrames/frame3.png")
+    intro_frame4 = pygame.image.load("src/square_game/Resources/IntroFrames/frame4.png")
     intro_frame_list = [intro_frame1, intro_frame2, intro_frame3, intro_frame4]
 
-    doFrame = pygame.image.load("src/square_game/warningFrames/doFrame.png")
-    notFrame = pygame.image.load("src/square_game/warningFrames/notFrame.png")
-    stopFrame = pygame.image.load("src/square_game/warningFrames/stopFrame.png")
+    doFrame = pygame.image.load("src/square_game/Resources/warningFrames/doFrame.png")
+    notFrame = pygame.image.load("src/square_game/Resources/warningFrames/notFrame.png")
+    stopFrame = pygame.image.load("src/square_game/Resources/warningFrames/stopFrame.png")
     warning_frame_list = [doFrame, notFrame, stopFrame]
 
     level1 = Level(screen, level1grid, "level1")
