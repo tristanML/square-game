@@ -3,6 +3,7 @@ from pygame import display
 from pygame.locals import *
 from pygame.sprite import collide_rect
 import time
+import os
 
 from .levels import *
 from .levels11_20 import *
@@ -20,6 +21,18 @@ from .players import Goal, Level, SquarePlayer, Ghost
 def default_run():
     screen = pygame.display.set_mode((screen_width, screen_height))
     running = True
+    intro_on = True
+    
+    intro_frame1 = pygame.image.load("src/square_game/IntroFrames/frame1.png")
+    intro_frame2 = pygame.image.load("src/square_game/IntroFrames/frame2.png")
+    intro_frame3 = pygame.image.load("src/square_game/IntroFrames/frame3.png")
+    intro_frame4 = pygame.image.load("src/square_game/IntroFrames/frame4.png")
+    intro_frame_list = [intro_frame1, intro_frame2, intro_frame3, intro_frame4]
+
+    doFrame = pygame.image.load("src/square_game/warningFrames/doFrame.png")
+    notFrame = pygame.image.load("src/square_game/warningFrames/notFrame.png")
+    stopFrame = pygame.image.load("src/square_game/warningFrames/stopFrame.png")
+    warning_frame_list = [doFrame, notFrame, stopFrame]
 
     level1 = Level(screen, level1grid, "level1")
     level2 = Level(screen, level2grid, "level2")
@@ -59,6 +72,33 @@ def default_run():
 
     editor_mode_on = False
     setback = 250
+    in_zone = True
+
+    while intro_on:
+        for intro_frame in intro_frame_list:
+            screen.blit(intro_frame, (0,0))
+            pygame.display.flip()
+            time.sleep(0.5)
+            for event in pygame.event.get():
+                if event.type == KEYDOWN:
+                    if event.key == K_p:
+                        intro_on = False
+                    if event.key == K_1:
+                        setback = 300
+                    if event.key == K_2:
+                        setback = 250
+                    if event.key == K_3:
+                        setback = 200
+                    if event.key == K_4:
+                        setback = 150
+                if event.type == QUIT:
+                    intro_on = False
+                    running = False
+
+    for warning_frame in warning_frame_list:
+        screen.blit(warning_frame, (0,0))
+        pygame.display.flip()
+        time.sleep(1)
 
     while running:
         #resetting to beginning
@@ -138,15 +178,21 @@ def default_run():
             current_level.level_reset()
             level_int += 1
 
+        if square.object.collidelist(current_level.safe_zone) == True:
+            in_zone = True
+        else:
+            in_zone = False
+
         #ghost collision
         if square.object.colliderect(ghost.object) == True:
             if square.object.colliderect(current_level.player_spawn) == False and editor_mode_on == False:
-                level_int = min_int
-                collision_event = ghost.x, ghost.y
-                current_level.level_reset()
-                ghost.x, ghost.y = 0,0
-                square.x, square.y= 0,0
-                player_coords = [(0,0)]
+                if in_zone == False:
+                    level_int = min_int
+                    collision_event = ghost.x, ghost.y
+                    current_level.level_reset()
+                    ghost.x, ghost.y = 0,0
+                    square.x, square.y= 0,0
+                    player_coords = [(0,0)]
 
         square = SquarePlayer(
             screen, black, square_width, square_height, square.x, square.y
