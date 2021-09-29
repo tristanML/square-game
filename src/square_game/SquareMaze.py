@@ -34,6 +34,12 @@ def default_run():
     stopFrame = pygame.image.load("src/square_game/Resources/warningFrames/stopFrame.png")
     warning_frame_list = [doFrame, notFrame, stopFrame]
 
+    difficulty_images = pygame.image.load("src/square_game/Resources/difficulty.png")
+    easy = (0,0,256,96)
+    medium = (0,128,448,96)
+    hard = (0,256,256,96)
+    pain = (0,384,256,96)
+
     level1 = Level(screen, level1grid, "level1")
     level2 = Level(screen, level2grid, "level2")
     level3 = Level(screen, level3grid, "level3")
@@ -73,10 +79,13 @@ def default_run():
     editor_mode_on = False
     setback = 250
     in_zone = True
+    difficulty = medium
+    diff_coords = (24, 376)
 
     while intro_on:
         for intro_frame in intro_frame_list:
             screen.blit(intro_frame, (0,0))
+            screen.blit(difficulty_images, diff_coords, difficulty)
             pygame.display.flip()
             time.sleep(0.5)
             for event in pygame.event.get():
@@ -85,20 +94,30 @@ def default_run():
                         intro_on = False
                     if event.key == K_1:
                         setback = 300
+                        difficulty = easy
+                        diff_coords = (120, 376)
                     if event.key == K_2:
                         setback = 250
+                        difficulty = medium
+                        diff_coords = (24, 376)
                     if event.key == K_3:
                         setback = 200
+                        difficulty = hard
+                        diff_coords = (120, 376)
                     if event.key == K_4:
                         setback = 150
+                        difficulty = pain
+                        diff_coords = (120, 376)
                 if event.type == QUIT:
                     intro_on = False
                     running = False
+                    break
 
-    for warning_frame in warning_frame_list:
-        screen.blit(warning_frame, (0,0))
-        pygame.display.flip()
-        time.sleep(1)
+    if running == True:
+        for warning_frame in warning_frame_list:
+            screen.blit(warning_frame, (0,0))
+            pygame.display.flip()
+            time.sleep(1)
 
     while running:
         #resetting to beginning
