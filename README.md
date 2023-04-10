@@ -1,5 +1,5 @@
 # square-game
----
+Navigate the maze to escape from your clone!
 ## Install:
 run on your favorite shell:
 ```
